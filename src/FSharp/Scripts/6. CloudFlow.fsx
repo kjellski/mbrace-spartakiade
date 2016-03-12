@@ -70,3 +70,12 @@ let linesLongerThanFiftyCharacters =
 // 6. Get the ten most popular words in the book
 // You will need to use either groupBy, countBy or sumByKey.
 // Use sortByDescending to get the "top ten" words
+
+let wordFrequency = [ "word", 10; "otherWord", 20 ]
+
+
+// You can chart the results easily: 
+open XPlot.GoogleCharts
+
+Chart.Column wordFrequency
+|> Chart.Show
