@@ -1,6 +1,7 @@
 content none
 source https://www.nuget.org/api/v2
 redirects: on
+framework: net452
 
 nuget Deedle
 nuget FSharp.Azure.StorageTypeProvider
@@ -8,5 +9,7 @@ nuget FSharp.Data
 nuget FSharp.Data.SqlClient
 nuget XPlot.GoogleCharts.WPF
 nuget XPlot.Plotly.WPF
+nuget FSharp.Core
+nuget MBrace.Thespian
 
 github fsprojects/FsReveal build.fsx .
