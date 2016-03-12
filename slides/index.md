@@ -4,13 +4,19 @@
 
 ![alt](images/mbrace.png)
 
-### Isaac Abraham 
-
 ![alt](images/CIT-vertical.png)
 
 ---
 
 ##Who am I?
+
+![alt](images/isaac.jpg)
+
+---
+
+![alt](images/escalator.jpg)
+
+---
 
 * .NET dev / contractor / consultant since .NET 1.0
 * Director of Compositional IT
@@ -56,6 +62,7 @@
 * Compute, data or IO -bound workloads
 * Works with any .NET language
 * Written in F# (with recent C# SDK)
+* Open source, free to use
 
 ---
 
@@ -108,6 +115,7 @@
 ---
 
 ### Types
+    open System
     
     // Tuples are first class citizens in F#
     let person = Tuple.Create("Isaac", 36)
@@ -137,23 +145,98 @@
     let mutable y = 10 // immutable by default!
     y <- 20 // ok 
     
+---
+
+### REPL
+
+* Read, Evaluate, Print Loop
+* No console applications needed
+* Scripts
+* Explore domain quickly
+* Convert to full-blown assemblies
 
 ***
 
-* Core concepts of MBrace
+## What does MBrace look like?
+
+---
+
+## Runtimes
+
+* Currently
+
+    * Local machine (codenamed Thespian)
+    * MBrace.Azure
+
+* Coming very, very soon
+    * MBrace.AWS
+
+---
+
+## MBrace Packages
+
+* Core libraries
+
+    * MBrace.Core (core types and code)
+    * MBrace.Runtime (runtime abstraction layer)
+    * MBrace.Flow (big data)
+
+* Runtime-specific
+
+    * MBrace.Thespian
+    * MBrace.Azure (runtime implementation of MBrace)
+    * MBrace.Azure.Management (create clusters through scripts etc.)
+
+---
     
-    let cloudNumber = cloud { return 5 }
-    * CloudValue
-    * CloudFile
-    * CloudFlow
+## MBrace.Azure
+
+![alt](images/mbraceazure.png)
+
+---
+
+## Core MBrace
+    
+    // Arbitrary computation
+    cloud {
+        let x = 1 + 2
+        return x + 10 } // magic happens inside { }
+
+    // Create a value and persist across all nodes
+    CloudValue.New("Isaac", StorageLevel.Memory)
+    
+    // Write to a file
+    CloudFile.WriteAllText("foo.txt", "Hello hello hello Berlin!") 
+
+    // Distributed LINQ e.g. map reduce etc.
+    CloudFlow.OfCloudFileByLine "foo.txt"
+    |> CloudFlow.collect(fun line -> line.Split ' ')
+    |> CloudFlow.map(fun word -> word.ToLower())
+    |> CloudFlow.countBy id
+
+---
+
+## Cloud Computations
+
+* Computations are Cloud< T> e.g. Cloud< string> etc.
+* Think of this as a distributed version of Task< T>
+* Send Cloud< T> to a cluster instead of thread pool for execution
+
+
+
+    // Spin up a local 4-node cluster
+    let cluster = ThespianCluster.InitOnCurrentMachine(4)
+
+    // Just contains the unstarted cloud work item
+    let computation : Cloud<string> = cloud { return "Hello World!")
+    
+    // Send computation to a cluster and get the result
+    let text : string = cluster.Run(computation)  
 
 ***
-    
-# Azure
-    * Storage
-    * Service Bus
 
-* Resources
-    * MBrace Starter Kit
-    * Azure Passes
-    * Datasets
+## Resources
+
+* This Repo (http://tiny.cc/spartakiade) 
+* MBrace Starter Kit (https://github.com/mbraceproject/MBrace.StarterKit/)
+* Sample datasets
