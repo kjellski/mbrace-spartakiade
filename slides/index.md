@@ -72,7 +72,7 @@
 * "what-if" analysis
 * usw usw usw :)
 
----
+***
 
 ## F#? C#? WTF#?
 
@@ -97,10 +97,13 @@
     let x:int = 5
     
     // type inference
-    let x = 5
+    let inferredX = 5
     
-    // functions are just values
-    let helloWorld (name) = printfn "Hello, %s" name 
+    // functions are just values, don't need a class
+    let helloWorld (name) = sprintf "Hello, %s" name 
+
+    // type inference again
+    let text = helloWorld "isaac"
 
 ---
 
@@ -108,13 +111,15 @@
     
     // Tuples are first class citizens in F#
     let person = Tuple.Create("Isaac", 36)
-    let personShortHand = "isaac", 36
+    let personShortHand = "isaac", 36 // string * int
+    let name, age = personShortHand // decompose the tuple 
 
     // Declaring a record
     type Person = { Name : string; Age : int }
     
     // Create an instance
     let me = { Name = "Isaac"; Age = 36 }
+    printfn "%s is %d years old" me.Name me.Age
 
 ---
 
@@ -126,14 +131,18 @@
         let time = DateTime.UtcNow
         printfn "It is now %d:%d" time.Hour time.Minute
 
-    let x = 5 // immutable by default!
-    let mutable y = 10
+    let x = 5
+    x = 10 // false, COMPARISON!!!
+
+    let mutable y = 10 // immutable by default!
     y <- 20 // ok 
+    
 
 ***
 
-* Core Concepts of MBrace
-    * cloud { }
+* Core concepts of MBrace
+    
+    let cloudNumber = cloud { return 5 }
     * CloudValue
     * CloudFile
     * CloudFlow
