@@ -11,5 +11,6 @@ nuget XPlot.GoogleCharts.WPF
 nuget XPlot.Plotly.WPF
 nuget FSharp.Core
 nuget MBrace.Thespian
+nuget MBrace.Flow
 
 github fsprojects/FsReveal build.fsx .
