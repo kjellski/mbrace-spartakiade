@@ -159,6 +159,8 @@
 
 ## What does MBrace look like?
 
+![alt](images/mbrace-stack.png)
+
 ---
 
 ## Runtimes
