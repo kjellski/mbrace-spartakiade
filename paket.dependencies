@@ -1,0 +1,12 @@
+content none
+source https://www.nuget.org/api/v2
+redirects: on
+
+nuget Deedle
+nuget FSharp.Azure.StorageTypeProvider
+nuget FSharp.Data
+nuget FSharp.Data.SqlClient
+nuget XPlot.GoogleCharts.WPF
+nuget XPlot.Plotly.WPF
+
+github fsprojects/FsReveal build.fsx .
