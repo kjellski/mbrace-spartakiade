@@ -67,9 +67,10 @@ let linesLongerThanFiftyCharacters =
 // b. For each line, get back the length of the array of words
 // c. Call sum to add them.
 
-// 6. Get the ten most popular words in the book
+// 6. Get the ten most popular words in all books
 // You will need to use either groupBy, countBy or sumByKey.
 // Use sortByDescending to get the "top ten" words
+// CloudFlow.ofCloudFile can take in a list [ ] of books e.g. [ "a"; "b"; "c"; ]
 
 let wordFrequency = [ "word", 10; "otherWord", 20 ]
 
