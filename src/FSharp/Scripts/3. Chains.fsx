@@ -16,12 +16,17 @@ let worldCloud = cloud { return "World" }
 // in C# (which itself is modelled on async { } in F#).
 let sentence =   
     cloud {
-        let! hello = helloCloud // unwrap from Cloud<string> to just string
-        let! world = worldCloud
+        // use let! to unwrap from Cloud<string> to just string
+        // this is like async / await "unwrapping" Task<string> to just string
+        let! hello = helloCloud
+        let world = "" // get the value of "worldCloud" here
         return hello + " " + world
     } |> cluster.Run // outside of cloud { } we need to call cluster.Run to "unwrap" the result.
 
-// We can also do this across nodes. Let's start to processes on the cluster and get a handle to them...
+
+
+
+// We can also do this across processes that have already started. Let's start to processes on the cluster and get a handle to them...
 let helloProcess = cloud { printfn "HELLO!"; return "Hello" } |> cluster.CreateProcess
 let worldProcess = cloud { printfn "WORLD!"; return "World" } |> cluster.CreateProcess
 
@@ -31,7 +36,7 @@ let sentenceTwo =
     cloud {
         printfn "Starting!";
         let! hello = helloProcess |> Cloud.AwaitProcess
-        let! world = worldProcess |> Cloud.AwaitProcess
+        let world = "" // get the value of worldProcess here...
         printfn "Stopping!";
         return hello + " " + world
     } |> cluster.Run
