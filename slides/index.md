@@ -12,6 +12,8 @@
 
 ![alt](images/isaac.jpg)
 
+### Isaac Abraham!
+
 ---
 
 ![alt](images/escalator.jpg)
@@ -50,9 +52,9 @@
 
 ## Nachmittag
 * Data Hack
-* Work with real data sets
-* Cluster hosted in Azure
-* Share results at the end of the day     
+* Work with some **real** data sets
+* Cluster hosted in Azure?
+* Share results at the end of the day?
 
 ***
 
@@ -132,15 +134,31 @@
 ---
 
 ### ACHTUNG!
+
+![alt](images/horror.jpg)
+
+---
+
+### Whitespace sensitive 
+
     open System
      
-    // No curly braces - space sensitive!
     let prettyPrintTime() =
         let time = DateTime.UtcNow
         printfn "It is now %d:%d" time.Hour time.Minute
 
+---
+
+### Equals is comparison!
+
     let x = 5
     x = 10 // false, COMPARISON!!!
+---
+
+### Immutable by default
+
+    let a = 10
+    a <- 20 // not allowed
 
     let mutable y = 10 // immutable by default!
     y <- 20 // ok 
@@ -155,23 +173,21 @@
 * Explore domain quickly
 * Convert to full-blown assemblies
 
+---
+
+### Also....
+
+* Type Inference *everywhere*
+* Expressions *everywhere*
+* Type Providers
+
+![alt](http://fsharp.github.io/FSharp.Data/images/start.png)
+
 ***
 
 ## What does MBrace look like?
 
 ![alt](images/mbrace-stack.png)
-
----
-
-## Runtimes
-
-* Currently
-
-    * Local machine (codenamed Thespian)
-    * MBrace.Azure
-
-* Coming very, very soon
-    * MBrace.AWS
 
 ---
 
@@ -239,6 +255,6 @@
 
 ## Resources
 
-* This Repo (http://tiny.cc/spartakiade) 
-* MBrace Starter Kit (https://github.com/mbraceproject/MBrace.StarterKit/)
+* This Repo - http://tiny.cc/spartakiade 
+* MBrace Starter Kit - https://github.com/mbraceproject/MBrace.StarterKit/
 * Sample datasets
