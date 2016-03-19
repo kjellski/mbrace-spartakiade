@@ -27,7 +27,9 @@ let size =
     cloud {
         let stream = (new WebClient()).OpenRead "https://tse3.mm.bing.net/th?id=OIP.M63e6e64b77055e85c20e2752d1cbb5d3H0&w=223&h=125&c=7&rs=1&qlt=90&o=4&pid=1.1"
         // fill in the rest, using CloudFile.UploadFromStream and CloudFile.GetSize
-        return 0
+        do! CloudFile.UploadFromStream(@"userData\file1.jpg", stream, true) |> Cloud.Ignore
+        let! fileInfo = CloudFile.GetInfo("file1.jpg")
+        return fileInfo.Size
     } |> cluster.Run
 
 // 5. Upload the following books into the file store
@@ -37,3 +39,7 @@ let books =
     |> List.map(fun file -> Path.Combine(__SOURCE_DIRECTORY__, @"..\data\", file) |> Path.GetFullPath)
 
 // use the CloudFile.Upload function
+let uploadedBooks =
+    cloud {
+        do! CloudFile.Upload(books, @"books") |> Cloud.Ignore
+    } |> cluster.Run

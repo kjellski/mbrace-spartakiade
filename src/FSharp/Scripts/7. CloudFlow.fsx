@@ -53,7 +53,11 @@ let lines =
 // 3. We can chain up CloudFlow calls, just like LINQ.
 let linesLongerThanFiftyCharacters =
     huckleberryFinn
-    |> CloudFlow.filter(fun line -> line.Length > 50) // each line called here
+    |> CloudFlow.filter(fun line ->
+        let result = line.Length > 100
+        printfn "%s" line // wohooooo printing in all consoles! :D
+        result
+        ) // each line called here
     |> CloudFlow.length
     |> cluster.Run
 
@@ -61,21 +65,44 @@ let linesLongerThanFiftyCharacters =
 // Use CloudFlow.map (Select in LINQ) to convert each line
 // Then Take to restrict to 50 rows
 // Then toArray to get the data back
+let uppercaseHuckleberryFinn =
+    huckleberryFinn
+    |> CloudFlow.map(fun line -> line.ToUpper())
+    |> CloudFlow.take 50
+    |> CloudFlow.toArray
+    |> cluster.Run
+
+uppercaseHuckleberryFinn |> Array.map(fun line -> printfn "%s" line)
 
 // 5. Find out the number of total words in the book.
 // a. You need to split each line into words
 // b. For each line, get back the length of the array of words
 // c. Call sum to add them.
 
+let huckleberryFinnWordCount =
+    huckleberryFinn
+    |> CloudFlow.sumBy(fun line -> line.Split(' ').Length)
+    |> cluster.Run
+
 // 6. Get the ten most popular words in all books
 // You will need to use either groupBy, countBy or sumByKey.
 // Use sortByDescending to get the "top ten" words
 // CloudFlow.ofCloudFile can take in a list [ ] of books e.g. [ "a"; "b"; "c"; ]
+let uploadedBooksPaths =
+    [ "aliceinwonderland.txt"; "huckleberryfinn.txt"; "prideprejudice.txt" ]
+    |> List.map(fun file -> Path.Combine(@"books", file))
 
-let wordFrequency = [ "word", 10; "otherWord", 20 ]
+//let wordFrequency = [ "word", 10; "otherWord", 20 ]
+let wordFrequency =
+    uploadedBooksPaths
+    |> CloudFlow.OfCloudFileByLine
+    |> CloudFlow.collect(fun (line: string) -> line.Split([| ' ' |], StringSplitOptions.RemoveEmptyEntries))
+    |> CloudFlow.countBy id
+    |> CloudFlow.sortByDescending snd 10
+    |> CloudFlow.toArray
+    |> cluster.Run
 
-
-// You can chart the results easily: 
+// You can chart the results easily:
 open XPlot.GoogleCharts
 
 Chart.Column wordFrequency

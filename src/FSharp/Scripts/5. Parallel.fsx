@@ -24,7 +24,6 @@ let results =
     |> Cloud.Parallel // go from (array of Cloud<int>) to (Cloud<array of int>)
     |> cluster.Run
 
-
 // 3. Convert all of these lat / longs into addresses.
 
 let locations =
@@ -33,6 +32,11 @@ let locations =
       38.897676, -77.036530
       52.525084, 13.369402 ]
 
+let googleKey = "AIzaSyAf-uZ-6xCoXdrFUZOYhNS-9cy0qFMDZYg"
 // You can use the GeoCoding module to lookup an address e.g.
 // GeoCoding.lookupAddress(googleKey, 12.0, -40.0)
 // You can use Balanced.map or Parallel, whichever you prefer.
+let adresses =
+    locations
+    |> Balanced.map(fun (lat, lng) -> GeoCoding.lookupAddress(googleKey, lat, lng))
+    |> cluster.Run
